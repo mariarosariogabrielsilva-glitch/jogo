@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Arcade do Aprendiz – Jogos para crescer na carreira</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ece9ff;--card:#fff;--ink:#1b1340;--mut:#5d5688;--bd:#1b1340;--sh:#1b1340;--brand:#6c3bff;--sun:#ffd23f;--ok:#19c37d;--bad:#ff5d73;--meh:#ff9f1c;--soft:#f4f1ff;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#150f2e;--card:#211848;--ink:#f1edff;--mut:#b2a9e0;--bd:#4b3b99;--sh:#0b0720;--brand:#9a7bff;--soft:#2b2060}}
+:root[data-theme="dark"]{--bg:#150f2e;--card:#211848;--ink:#f1edff;--mut:#b2a9e0;--bd:#4b3b99;--sh:#0b0720;--brand:#9a7bff;--soft:#2b2060}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.55 Figtree,system-ui,sans-serif}
+h1,h2,b.f{font-family:Fredoka,system-ui,sans-serif}
+h1,h2{margin:0;line-height:1.15}
+.wrap{max-width:760px;margin:0 auto;padding:14px 14px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.logo{font:700 20px Fredoka,sans-serif}
+.card{background:var(--card);border:3px solid var(--bd);border-radius:22px;box-shadow:5px 5px 0 var(--sh);padding:20px}
+button{font:inherit;color:inherit}
+.btn{font:600 18px Fredoka,sans-serif;background:var(--brand);color:#fff;border:3px solid var(--bd);border-radius:16px;padding:12px 26px;cursor:pointer;box-shadow:0 5px 0 var(--sh);transition:transform .1s,box-shadow .1s}
+.btn:active{transform:translateY(4px);box-shadow:0 1px 0 var(--sh)}
+.btn.y{background:var(--sun);color:#1b1340}
+.sm{font:600 14px Figtree,sans-serif;background:var(--card);border:2px solid var(--bd);border-radius:12px;padding:6px 12px;cursor:pointer}
+button:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
+.hero{background:linear-gradient(135deg,#6c3bff,#2f80ff);color:#fff;text-align:center;padding:30px 20px}
+.hero h1{font-size:clamp(32px,8vw,48px);margin-bottom:10px}
+.hero p{margin:0 auto;max-width:46ch;font-size:17px}
+.how{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:18px 0}
+.how div{background:var(--soft);border:2px solid var(--bd);border-radius:16px;padding:12px;font-size:14.5px}
+.how b{display:block;font:600 16px Fredoka,sans-serif}
+.avs{display:flex;gap:10px;justify-content:center;margin:12px 0}
+.avs button{font-size:36px;background:var(--soft);border:3px solid transparent;border-radius:16px;padding:4px 10px;cursor:pointer}
+.avs button[aria-pressed=true]{border-color:var(--brand);background:var(--sun)}
+input{font:inherit;width:100%;max-width:340px;display:block;margin:0 auto 16px;text-align:center;padding:11px;border-radius:14px;border:3px solid var(--bd);background:var(--card);color:var(--ink)}
+.ctr{text-align:center}
+.hud{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:12px 16px}
+.me{display:flex;gap:10px;align-items:center}.av{font-size:34px}.me small{display:block;color:var(--mut)}
+.st{display:flex;gap:18px}.st small{display:block;color:var(--mut);font-size:12px}.st b{font:600 18px Fredoka,sans-serif}
+.lad{display:flex;justify-content:space-between;gap:4px;margin:14px 0}
+.rung{flex:1;text-align:center;opacity:.45;transition:.3s}
+.rung span{display:block;font-size:26px;filter:grayscale(1)}
+.rung small{font-size:11px;line-height:1.1;display:block}
+.rung.done,.rung.cur{opacity:1}.rung.done span,.rung.cur span{filter:none}
+.rung.cur span{transform:scale(1.35);transition:.3s}.rung.cur small{font-weight:700;color:var(--brand)}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;margin-bottom:14px}
+.m>div:first-child{display:flex;justify-content:space-between;font-size:14px;font-weight:600}
+.bar{height:12px;background:var(--soft);border:2px solid var(--bd);border-radius:9px;overflow:hidden;margin-top:3px}
+.bar b{display:block;height:100%;transition:width .9s cubic-bezier(.3,1.4,.5,1)}
+.sc .big{font-size:52px;line-height:1}.sc h2{font-size:24px;margin:8px 0 6px}.sc p{margin:0 0 14px;font-size:17px}
+.ops{display:grid;gap:10px}
+.op{display:flex;gap:12px;align-items:center;text-align:left;background:var(--soft);border:3px solid var(--bd);border-radius:16px;padding:12px 14px;cursor:pointer;font-weight:600;transition:transform .12s}
+.op:hover:not(:disabled){transform:translateX(5px);background:var(--sun);color:#1b1340}
+.op i{font:700 16px Fredoka,sans-serif;font-style:normal;background:var(--brand);color:#fff;border-radius:50%;min-width:30px;height:30px;display:grid;place-items:center}
+.op.dis{opacity:.5}.op.pick{opacity:1}.op.pick.q2{background:var(--ok);color:#fff}.op.pick.q1{background:var(--meh);color:#1b1340}.op.pick.q0{background:var(--bad);color:#fff}
+.fb{margin-top:16px;border:3px solid var(--bd);border-radius:16px;padding:14px;background:var(--soft);animation:up .35s}
+.fb h3{margin:0 0 4px;font:600 20px Fredoka,sans-serif}.fb p{margin:0 0 10px}
+.chip{display:inline-block;font-weight:700;font-size:13.5px;border-radius:99px;padding:3px 11px;margin:0 6px 6px 0;color:#fff}
+.chip.p{background:var(--ok)}.chip.n{background:var(--bad)}.chip.s{background:var(--brand)}
+@keyframes up{from{opacity:0;transform:translateY(12px)}}
+.res h1{font-size:34px}.res .em{font-size:72px}
+.tag{display:inline-block;background:var(--sun);color:#1b1340;font:700 22px Fredoka,sans-serif;border-radius:14px;padding:4px 18px;margin:8px 0}
+.sec{margin-top:20px}.sec h3{font:600 18px Fredoka,sans-serif;margin:0 0 8px}
+.les{background:var(--soft);border-left:6px solid var(--meh);border-radius:12px;padding:10px 14px;margin-bottom:8px;font-size:15px}
+.les b{display:block}
+.pop{position:fixed;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;background:var(--sun);color:#1b1340;border:3px solid var(--bd);padding:10px 22px;border-radius:99px;font:700 17px Fredoka,sans-serif;z-index:20;animation:pp 2.4s forwards;white-space:nowrap}
+@keyframes pp{0%{opacity:0;transform:translate(-50%,-14px)}12%,82%{opacity:1;transform:translate(-50%,0)}100%{opacity:0}}
+.cf{position:fixed;top:-30px;font-size:26px;z-index:20;pointer-events:none;animation:cf 3s linear forwards}
+@keyframes cf{to{transform:translateY(110vh) rotate(360deg)}}
+body.big{zoom:1.25}
+@media (prefers-reduced-motion:reduce){.cf{display:none}.fb,.pop{animation:none}.bar b,.op{transition:none}}
+@media (max-width:480px){.mt{grid-template-columns:1fr}}
+.gm{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:16px}
+.gc{text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:6px;transition:transform .12s;color:var(--ink)}
+.gc:hover{transform:translate(-3px,-3px)}.gc span{font-size:44px;line-height:1}.gc small{color:var(--mut);font-size:15px}
+.sm[aria-pressed=true]{background:var(--sun);color:#1b1340}
+.slots{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px;margin:14px 0;padding:12px;border:3px dashed var(--bd);border-radius:18px}
+.slot{min-height:80px;text-align:left;background:var(--soft);border:3px solid var(--bd);border-radius:14px;padding:10px;cursor:pointer;color:var(--ink)}
+.slot em{display:block;font-style:normal;font-size:14px}.slot span{font-size:26px;margin-right:6px}.slot.ok{background:var(--ok);color:#fff}
+.tray{display:flex;flex-wrap:wrap;gap:8px}
+.piece{background:var(--card);color:var(--ink);border:3px solid var(--bd);border-radius:14px;padding:8px 14px;font-weight:700;cursor:pointer;box-shadow:0 4px 0 var(--sh)}
+.piece.on{background:var(--sun);color:#1b1340;transform:translateY(-3px)}
+.board{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:330px;margin:14px auto}
+.cell{aspect-ratio:1;font-size:44px;background:var(--soft);border:3px solid var(--bd);border-radius:14px;cursor:pointer}.cell.win{background:var(--ok)}
+.tcs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}
+.tc{background:var(--soft);border:3px solid var(--bd);border-radius:18px;padding:10px;text-align:center}
+.tc.w{background:var(--ok);color:#fff}.tc .e{font-size:42px;line-height:1.2}.tc small{display:block;font-size:12.5px;margin-top:6px}
+.sr{display:flex;align-items:center;gap:6px;width:100%;background:none;border:2px solid transparent;border-radius:10px;padding:4px;font-size:12.5px;text-align:left;color:inherit}
+.sr span{width:78px}.sr .bar{flex:1;margin:0;height:10px}.sr .bar b{background:var(--brand)}.sr:enabled{cursor:pointer}.sr.on{border-color:var(--brand);background:var(--card);color:var(--ink)}
+.top{flex-wrap:wrap;gap:8px}
+.mg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:420px;margin:14px auto}
+.mc{aspect-ratio:1;font:700 34px Fredoka,sans-serif;background:var(--brand);color:#fff;border:3px solid var(--bd);border-radius:14px;cursor:pointer;display:grid;place-items:center;padding:2px}
+.mc.on{background:var(--soft);color:var(--ink)}.mc.ok{background:var(--ok);color:#fff}.mc b{font-size:13px;line-height:1.1}.pi{width:100%;height:100%;object-fit:cover;border-radius:10px}
+.mail{background:var(--soft);border:3px solid var(--bd);border-radius:16px;padding:12px 16px;margin:12px 0;text-align:left}.mail p{margin:6px 0 0}
+.tgt{font:700 56px Fredoka,sans-serif;color:var(--brand);margin:6px 0}
+.bits{display:flex;gap:8px;justify-content:center;margin:10px 0}
+.bit{width:58px;padding:8px 0;background:var(--soft);color:var(--ink);border:3px solid var(--bd);border-radius:14px;cursor:pointer;box-shadow:0 4px 0 var(--sh)}.bit span{font-size:30px;display:block}.bit.on{background:var(--sun);color:#1b1340}
+.kg{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:360px;margin:10px auto}
+.kc{aspect-ratio:1;font-size:38px;background:var(--soft);border:3px solid var(--bd);border-radius:14px;cursor:pointer;box-shadow:0 4px 0 var(--sh)}.kc.bug{background:var(--sun)}.kc.fl{background:var(--brand)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="top"><div class="logo">🕹️ Arcade do Aprendiz</div><div><span class="sm" id="xpb">⭐ 0 XP</span> <button class="sm" id="snd">🔊</button> <button class="sm" id="menu">Menu de jogos</button> <button class="sm" id="proj">Modo projetor</button></div></div>
+<main id="app"></main>
+</div>
+<script>
+var KEY="jornada-aprendiz-v1",REC={pts:0,lv:0};
+try{var rr=localStorage.getItem(KEY);if(rr)REC=JSON.parse(rr)}catch(e){}
+var AV=["🧑‍💻","👩‍💻","🧑🏾‍💻","👩🏽‍💻"];
+var MT=[["c","💬","Comunicação","#2f80ff"],["p","🎩","Postura","#ff8a3d"],["r","⏰","Responsabilidade","#19c37d"],["a","📚","Aprendizado","#a56bff"]];
+var LV=[["Jovem Aprendiz","🌱",0],["Assistente de TI","🛠️",35],["Analista Júnior","💻",48],["Analista Pleno","🚀",60],["Especialista ou Líder","👑",72]];
+var MSG=["Você está no começo da jornada, e isso é normal. Cada escolha que você refaz é uma chance de aprender. Jogue de novo!","Bom começo! Você já parece alguém confiável. Falta consistência para subir mais.","Muito bem! Seu comportamento já abre portas para vagas na área técnica.","Excelente! Profissionais com essa postura são disputados pelas empresas.","Incrível! Você mostrou o perfil de quem vira referência e líder."];
+var TIP={c:"Treine explicar uma ideia em 1 minuto para um colega.",p:"Cuide de pontualidade, uso do celular e linguagem no trabalho.",r:"Cumpra prazos e avise sempre que algo der errado.",a:"Reserve 30 minutos por dia para aprender algo novo."};
+var S=[
+{e:"🚌",t:"Imprevisto no caminho",x:"O ônibus atrasou e você vai chegar 15 minutos depois do horário.",o:[["Aviso meu supervisor agora, explico e peço desculpas.",2,{r:12,c:8},"Avisar antes mostra responsabilidade e respeito."],["Chego e finjo que nada aconteceu.",1,{r:-6,p:-4},"Sem aviso, a equipe fica sem saber o que houve."],["Nem aviso. Ninguém vai perceber.",0,{r:-14,p:-8},"Atrasos sem aviso destroem a confiança rápido."]]},
+{e:"🤔",t:"Tarefa confusa",x:"Seu chefe passou uma tarefa e você não entendeu direito.",o:[["Pergunto com educação e repito o que entendi.",2,{c:12,a:8},"Perguntar e confirmar evita erros e mostra interesse."],["Faço do meu jeito, sem perguntar.",0,{r:-8,c:-8},"Fazer no chute costuma gerar retrabalho."],["Espero alguém perceber que estou perdido.",1,{a:-5,c:-5},"Dúvida guardada vira atraso. Pergunte!"]]},
+{e:"🖥️",t:"Computador travado",x:"O PC de um colega travou. Você tem um tempinho livre e sabe resolver.",o:[["Aviso o colega, ajudo e explico o que fiz.",2,{c:8,r:6,a:8},"Ajudar e explicar fortalece a equipe e o seu conhecimento."],["Não é minha função, deixo pra lá.",1,{p:-5,c:-3},"Nem sempre é sua tarefa, mas um gesto de ajuda é lembrado."],["Mexo nele sem pedir permissão.",0,{r:-10,p:-6},"Mexer no equipamento dos outros sem avisar pode causar problemas."]]},
+{e:"📝",t:"Feedback do chefe",x:"Seu chefe mostra um erro numa planilha que você fez.",o:[["Agradeço, corrijo e anoto para não repetir.",2,{p:10,a:12},"Quem aceita feedback evolui mais rápido."],["Digo que a culpa foi de outra pessoa.",0,{p:-12,c:-6},"Culpar os outros afasta as chances de crescer."],["Fico de cara fechada o resto do dia.",1,{p:-6,c:-4},"Reação emocional atrapalha o clima e a sua imagem."]]},
+{e:"📱",t:"Celular na reunião",x:"Em plena reunião, chega uma mensagem de um amigo.",o:[["Deixo no silencioso e respondo depois.",2,{p:12,r:6},"Atenção na reunião demonstra respeito."],["Respondo escondido embaixo da mesa.",1,{p:-8},"As pessoas percebem, sim."],["Atendo a ligação ali mesmo.",0,{p:-14,c:-5},"Interromper a reunião passa uma imagem muito ruim."]]},
+{e:"😠",t:"Cliente irritado",x:"Um cliente liga bravo porque o sistema não funciona.",o:[["Ouço até o fim, peço desculpas e busco a solução.",2,{c:12,p:8},"Escutar com calma acalma o cliente e resolve mais rápido."],["Retruco e discuto com ele.",0,{p:-12,c:-10},"Discutir piora tudo e prejudica a empresa."],["Passo para um colega sem explicar nada.",1,{r:-8,c:-5},"Repassar sem contexto deixa o cliente ainda mais irritado."]]},
+{e:"⏳",t:"Sobrou tempo",x:"Você terminou tudo e ainda faltam 40 minutos de expediente.",o:[["Peço mais tarefas ou estudo um curso da empresa.",2,{a:12,r:8},"Proatividade é o que mais chama atenção para promoções."],["Fico nas redes sociais até dar o horário.",1,{p:-6,a:-4},"Tempo livre é uma oportunidade de aprender."],["Saio da mesa e fico andando por aí.",0,{r:-10,p:-6},"Sumir sem avisar passa falta de compromisso."]]},
+{e:"💡",t:"Ideia na reunião",x:"Você teve uma ideia para melhorar um processo da equipe.",o:[["Espero minha vez e explico com um exemplo.",2,{c:12,a:6},"Boas ideias precisam de boa comunicação."],["Interrompo quem está falando.",0,{p:-6,c:-4},"Interromper enfraquece a sua ideia."],["Guardo para mim. Ninguém vai ligar.",1,{c:-6,a:-3},"Ideias que ninguém ouve não geram oportunidades."]]},
+{e:"✉️",t:"E-mail para cliente",x:"Você precisa escrever para um cliente importante.",o:[["Escrevo com educação, de forma clara, e reviso a ortografia.",2,{c:10,p:8},"Escrita cuidadosa é o cartão de visita profissional."],["Uso gírias e abreviações, como com os amigos.",0,{p:-8,c:-6},"No trabalho a linguagem precisa ser mais cuidadosa."],["Mando rápido, sem reler.",1,{r:-6,c:-4},"Pequenos erros passam imagem de descuido."]]},
+{e:"😬",t:"Arquivo apagado",x:"Você apagou sem querer um arquivo importante da empresa.",o:[["Aviso logo e ajudo a recuperar.",2,{r:14,p:6},"Assumir o erro rápido evita problemas maiores e gera confiança."],["Escondo e torço para ninguém notar.",0,{r:-15,p:-10},"Erro escondido costuma aparecer, e pior."],["Digo que foi culpa do sistema.",0,{r:-10,c:-6},"Mentir quebra a confiança."]]},
+{e:"🤝",t:"Colega novo",x:"Chegou um estagiário novo e está perdido com o sistema.",o:[["Mostro com paciência como eu aprendi.",2,{c:8,r:4,a:8},"Ensinar também fortalece o seu aprendizado."],["Rio do erro dele com o pessoal.",0,{p:-12,c:-6},"Zombaria destrói o clima e a sua reputação."],["Faço tudo no lugar dele para ser rápido.",1,{a:-2,r:2},"Ajudar é bom, mas ele precisa aprender também."]]},
+{e:"📚",t:"Curso gratuito",x:"A empresa oferece um curso gratuito de redes no sábado de manhã.",o:[["Vou e aplico o que aprendi na semana seguinte.",2,{a:14,r:6},"Quem aprende além do básico sobe mais rápido."],["Digo que não tenho tempo, mas passo o sábado no celular.",0,{a:-8,r:-4},"Priorizar o aprendizado muda o seu futuro."],["Espero ver se alguém da equipe vai primeiro.",1,{a:-3},"Quem se adianta é lembrado primeiro."]]},
+{e:"👔",t:"Visita na empresa",x:"Hoje a empresa recebe uma visita importante.",o:[["Me visto de forma adequada e cumprimento com educação.",2,{p:12,c:6},"Aparência e educação formam a primeira impressão."],["Vou do jeito que quiser, ninguém liga.",0,{p:-10},"A primeira impressão é difícil de mudar."],["Fico escondido na sala para não conversar.",1,{c:-6,p:-2},"Evitar se apresentar também é perder oportunidades."]]},
+{e:"🏆",t:"Hora da avaliação",x:"Chegou a época de avaliações de desempenho na empresa.",o:[["Anoto o que entreguei e o que aprendi para mostrar.",2,{c:8,a:8,r:4},"Registrar resultados ajuda a pedir uma promoção."],["Espero que o chefe lembre sozinho.",1,{c:-4,a:-2},"Nem sempre dá para contar com a memória do chefe."],["Reclamo do salário sem mostrar resultados.",0,{p:-8,c:-6},"Resultados convencem mais do que reclamações."]]}
+];
+var G;
+function esc(t){return String(t).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function newG(){G={scr:"start",nome:G?G.nome:"",av:G?G.av:AV[0],day:0,m:{c:25,p:25,r:25,a:25},pm:{c:25,p:25,r:25,a:25},pts:0,combo:0,order:[],oo:[0,1,2],ans:-1,hist:[],lv:0,gain:0,mu:1}}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function avg(){return(G.m.c+G.m.p+G.m.r+G.m.a)/4}
+function lvl(){var a=avg(),l=0;LV.forEach(function(x,i){if(a>=x[2])l=i});return l}
+function pop(m){bp(/❌|Cuidado|⬇️/.test(m)?200:660);var d=document.createElement("div");d.className="pop";d.textContent=m;document.body.appendChild(d);setTimeout(function(){d.remove()},2400)}
+function boom(){xp(30);var em=["🎉","⭐","💻","🚀","✨"];for(var i=0;i<30;i++){var d=document.createElement("span");d.className="cf";d.textContent=em[i%5];d.style.left=Math.random()*100+"vw";d.style.animationDelay=Math.random()*1.2+"s";document.body.appendChild(d);(function(x){setTimeout(function(){x.remove()},4600)})(d)}}
+function go(){G.order=shuf(S.map(function(_,i){return i})).slice(0,10);G.oo=shuf([0,1,2]);G.scr="play";render()}
+function pick(oi){
+ var sc=S[G.order[G.day]],o=sc.o[oi],q=o[1];
+ G.ans=oi;G.pm=Object.assign({},G.m);
+ for(var k in o[2])G.m[k]=Math.max(0,Math.min(100,G.m[k]+o[2][k]));
+ G.mu=1+Math.min(G.combo,3)*.5;G.gain=[0,50,100][q]*G.mu;G.pts+=G.gain;G.combo=q==2?G.combo+1:0;
+ G.hist.push({d:G.day+1,t:sc.t,q:q,f:o[3]});
+ var nl=lvl();if(nl>G.lv)pop("⬆️ Promoção: "+LV[nl][0]+"!");else if(nl<G.lv)pop("⬇️ Cuidado! Você voltou a "+LV[nl][0]);
+ G.lv=nl;render();
+ var f=document.querySelector(".fb");if(f)f.scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+function next(){
+ if(G.day>=9){G.scr="end";if(G.pts>REC.pts){REC={pts:Math.round(G.pts),lv:Math.max(G.lv,REC.lv)};try{localStorage.setItem(KEY,JSON.stringify(REC))}catch(e){}}render();if(G.lv>=2)boom();return}
+ G.pm=Object.assign({},G.m);G.day++;G.ans=-1;G.oo=shuf([0,1,2]);render();window.scrollTo({top:0,behavior:"smooth"});
+}
+function hud(){var L=LV[G.lv];return '<div class="hud card"><div class="me"><span class="av">'+G.av+'</span><div><b class="f">'+esc(G.nome||"Aprendiz")+'</b><small>'+L[1]+' '+L[0]+'</small></div></div><div class="st"><div><small>Dia</small><b>'+(G.day+1)+'/10</b></div><div><small>Pontos</small><b>'+Math.round(G.pts)+'</b></div><div><small>Combo</small><b>'+(G.combo>0?'🔥 x'+(1+Math.min(G.combo,3)*.5):'–')+'</b></div></div></div>'}
+function ladder(){return '<div class="lad">'+LV.map(function(x,i){return '<div class="rung'+(i<G.lv?' done':'')+(i==G.lv?' cur':'')+'"><span>'+x[1]+'</span><small>'+x[0]+'</small></div>'}).join("")+'</div>'}
+function meters(w){return '<div class="mt">'+MT.map(function(m){return '<div class="m"><div><span>'+m[1]+' '+m[2]+'</span><b>'+Math.round(G.m[m[0]])+'</b></div><div class="bar"><b data-k="'+m[0]+'" style="width:'+w[m[0]]+'%;background:'+m[3]+'"></b></div></div>'}).join("")+'</div>'}
+function render(){
+ var h="",A=document.getElementById("app");
+ if(G.scr=="start"){
+  h='<section class="card hero"><h1>Até onde você chega?</h1><p>Você começa como Jovem Aprendiz. Em 10 dias de trabalho, suas escolhas decidem se você vira Analista, Especialista ou até Líder.</p></section>'+
+  '<section class="card ctr" style="margin-top:16px"><div class="how"><div><b class="f">1. Escolha</b>Cada dia traz uma situação real de trabalho.</div><div><b class="f">2. Veja o efeito</b>Comunicação, postura, responsabilidade e aprendizado mudam.</div><div><b class="f">3. Suba de cargo</b>Boas escolhas em sequência dão combo e promoção!</div></div>'+
+  '<p style="margin:0"><b class="f">Escolha seu personagem</b></p><div class="avs">'+AV.map(function(a){return '<button data-av="'+a+'" aria-pressed="'+(G.av==a)+'" aria-label="Personagem">'+a+'</button>'}).join("")+'</div>'+
+  '<input id="nome" type="text" maxlength="20" placeholder="Seu nome" value="'+esc(G.nome)+'"><button class="btn" id="go">Começar a jornada</button>'+
+  (REC.pts?'<p style="color:var(--mut);margin:14px 0 0">🏅 Seu recorde: '+REC.pts+' pontos · '+LV[REC.lv][0]+'</p>':'')+'</section>';
+ }
+ if(G.scr=="play"){
+  var sc=S[G.order[G.day]],ans=G.ans>-1,o=ans?sc.o[G.ans]:null,w=ans?G.pm:G.m;
+  h=hud()+ladder()+meters(w)+'<section class="card sc"><div class="big">'+sc.e+'</div><h2>Dia '+(G.day+1)+': '+sc.t+'</h2><p>'+sc.x+'</p><div class="ops">'+
+  G.oo.map(function(oi,k){var q=sc.o[oi][1],c="op"+(ans?" dis"+(oi==G.ans?" pick q"+q:""):"");return '<button class="'+c+'" data-o="'+oi+'"'+(ans?" disabled":"")+'><i>'+"ABC"[k]+'</i>'+sc.o[oi][0]+'</button>'}).join("")+'</div>';
+  if(ans){
+   var q=o[1],T=["Cuidado!","Dá para melhorar","Ótima escolha!"][q],ic=["❌","⚠️","✅"][q];
+   h+='<div class="fb"><h3>'+ic+' '+T+'</h3><p>'+o[3]+'</p>'+Object.keys(o[2]).map(function(k){var v=o[2][k],n=MT.filter(function(m){return m[0]==k})[0][2];return '<span class="chip '+(v>0?'p':'n')+'">'+(v>0?'+':'')+v+' '+n+'</span>'}).join("")+
+   '<span class="chip s">+'+Math.round(G.gain)+' pontos'+(G.mu>1?' · combo x'+G.mu:'')+'</span><div class="ctr" style="margin-top:8px"><button class="btn y" id="next">'+(G.day>=9?'Ver meu resultado':'Próximo dia')+'</button></div></div>';
+  }
+  h+='</section>';
+ }
+ if(G.scr=="end"){
+  var L=LV[G.lv],ms=MT.slice().sort(function(a,b){return G.m[b[0]]-G.m[a[0]]}),top=ms[0],low=ms[3];
+  var les=G.hist.filter(function(x){return x.q<2}).slice(0,3);
+  h='<section class="card ctr res"><div class="em">'+L[1]+'</div><h1>'+esc(G.nome||"Aprendiz")+', você chegou a</h1><div class="tag">'+L[0]+'</div><p>'+MSG[G.lv]+'</p><p><b class="f" style="font-size:22px">'+Math.round(G.pts)+' pontos</b></p>'+ladder()+meters(G.m)+
+  '<div class="sec" style="text-align:left"><h3>⭐ Seu ponto forte: '+top[2]+'</h3><h3>🎯 Foco para crescer: '+low[2]+'</h3><p style="margin:0">'+TIP[low[0]]+'</p></div>'+
+  '<div class="sec" style="text-align:left"><h3>📌 O que aprender com suas escolhas</h3>'+(les.length?les.map(function(x){return '<div class="les"><b>Dia '+x.d+': '+x.t+'</b>'+x.f+'</div>'}).join(""):'<p style="margin:0">Você acertou tudo! Compartilhe o que aprendeu com a turma.</p>')+'</div>'+
+  '<div class="sec"><button class="btn" id="again">Jogar de novo</button> <button class="btn y" id="copy">Copiar resultado</button><p id="cp" style="color:var(--ok);font-weight:700;min-height:24px"></p></div></section>';
+ }
+ A.innerHTML=h;
+ if(G.scr=="play")requestAnimationFrame(function(){requestAnimationFrame(function(){document.querySelectorAll("[data-k]").forEach(function(b){b.style.width=G.m[b.dataset.k]+"%"})})});
+ A.querySelectorAll("[data-av]").forEach(function(b){b.onclick=function(){G.av=b.dataset.av;A.querySelectorAll("[data-av]").forEach(function(x){x.setAttribute("aria-pressed",x==b)})}});
+ var n=document.getElementById("nome");if(n)n.oninput=function(){G.nome=n.value};
+ var g=document.getElementById("go");if(g)g.onclick=go;
+ A.querySelectorAll("[data-o]").forEach(function(b){b.onclick=function(){pick(+b.dataset.o)}});
+ var nx=document.getElementById("next");if(nx)nx.onclick=next;
+ var ag=document.getElementById("again");if(ag)ag.onclick=function(){newG();render();window.scrollTo({top:0})};
+ var cp=document.getElementById("copy");if(cp)cp.onclick=function(){var t="Joguei Jornada do Aprendiz e cheguei a "+LV[G.lv][0]+" com "+Math.round(G.pts)+" pontos! Consegue me superar?",m=document.getElementById("cp");try{navigator.clipboard.writeText(t).then(function(){m.textContent="Resultado copiado!"},function(){m.textContent=t})}catch(e){m.textContent=t}};
+}
+document.getElementById("proj").onclick=function(){document.body.classList.toggle("big")};
+var cur="";
+function $(){return document.getElementById("app")}
+function hub(){cur="";
+ var gs=[["🎮","Jornada do Aprendiz","Escolhas do dia a dia no trabalho: suba de cargo com boa postura e comunicação.",function(){newG();render()}],
+ ["🖥️","Monte o Computador","Quebra-cabeça: encaixe cada peça no lugar certo.",pcStart],
+ ["⭕","Velha Tech","Jogo da velha contra a máquina. Escolha seu símbolo!",function(){T=null;tNew("x")}],
+ ["🃏","Batalha de Cartas","Duelo de componentes de TI contra a máquina.",cStart],["🧠","Memória Tech","Una cada imagem ao nome do componente.",mStart],["⚡","Quiz Relâmpago","8 perguntas, 15 segundos cada e 3 vidas.",zStart],["🕵️","Detetive de E-mails","Descubra quais mensagens são golpe.",hS],["🔢","Código Binário","Acenda as lâmpadas e fale a língua dos computadores.",bS],["⌨️","Digitação Dev","Digite termos de TI contra o relógio.",dS],["🐛","Caça-Bugs","Esmague os bugs, mas poupe os arquivos importantes!",kS]];
+ $().innerHTML='<section class="card hero"><h1>Escolha seu jogo</h1><p>Jogue, aprenda e descubra o que você precisa para crescer na carreira de TI.</p></section><div class="gm">'+gs.map(function(g,i){return '<button class="gc card" data-g="'+i+'"><span>'+g[0]+'</span><b class="f" style="font-size:20px">'+g[1]+'</b><small>'+g[2]+'</small></button>'}).join("")+'</div>';
+ $().querySelectorAll("[data-g]").forEach(function(b){b.onclick=function(){gs[+b.dataset.g][3]()}});window.scrollTo(0,0)}
+
+/* Quebra-cabeça */
+var PARTS=[["🟩","Placa-mãe","Onde todas as peças se conectam"],["🧠","Processador","O cérebro que faz os cálculos"],["🧩","Memória RAM","Memória rápida para o que está aberto agora"],["💾","SSD","Guarda arquivos e o sistema, mesmo desligado"],["🔌","Fonte","Dá energia para todo o computador"],["❄️","Cooler","Esfria o processador para não superaquecer"],["🎮","Placa de vídeo","Cria as imagens de jogos e vídeos"],["🖥️","Monitor","Mostra as imagens para você"]],P;
+function pcStart(){cur="p";var o=shuf(PARTS.map(function(_,i){return i}));P={tr:o,sl:shuf(o),ok:{},sel:-1,er:0,t0:Date.now(),fin:0};pcR()}
+function pcR(){
+ var n=Object.keys(P.ok).length,h='<section class="card"><h2>🖥️ Monte o Computador</h2><p style="color:var(--mut);margin:4px 0 12px">Toque em uma peça e depois no espaço que combina com a dica.</p><div class="bar"><b style="width:'+n/8*100+'%;background:var(--ok)"></b></div><small>'+n+' de 8 peças · Erros: '+P.er+'</small>';
+ h+='<div class="slots">'+P.sl.map(function(i){var o=P.ok[i];return '<button class="slot'+(o?' ok':'')+'" data-s="'+i+'">'+(o?'<span>'+PARTS[i][0]+'</span><b>'+PARTS[i][1]+'</b>':'<small>Dica</small>')+'<em>'+PARTS[i][2]+'</em></button>'}).join("")+'</div>';
+ if(P.fin){var sec=Math.round((P.t1-P.t0)/1000),st=P.er<=2?3:P.er<=5?2:1;
+  h+='<div class="ctr"><h2>Computador montado! '+"⭐".repeat(st)+'</h2><p>Tempo: '+sec+'s · Erros: '+P.er+'</p><p>Um técnico de suporte monta e conserta computadores assim todos os dias. Você já pensa como um!</p><button class="btn" id="again">Montar de novo</button></div>';
+ }else h+='<div class="tray">'+P.tr.filter(function(i){return !P.ok[i]}).map(function(i){return '<button class="piece'+(P.sel==i?' on':'')+'" data-p="'+i+'">'+PARTS[i][0]+' '+PARTS[i][1]+'</button>'}).join("")+'</div>';
+ $().innerHTML=h+'</section>';
+ $().querySelectorAll("[data-p]").forEach(function(b){b.onclick=function(){P.sel=+b.dataset.p;pcR()}});
+ $().querySelectorAll("[data-s]").forEach(function(b){b.onclick=function(){var i=+b.dataset.s;if(P.ok[i]||P.fin)return;
+  if(P.sel<0){pop("Escolha uma peça primeiro");return}
+  if(P.sel==i){P.ok[i]=1;P.sel=-1;pop("✅ Encaixou!");if(Object.keys(P.ok).length==8){P.fin=1;P.t1=Date.now();boom()}}
+  else{P.er++;pop("❌ "+PARTS[P.sel][1]+" não é essa. Releia a dica!");}pcR()}});
+ var a=document.getElementById("again");if(a)a.onclick=pcStart}
+
+/* Jogo da velha */
+var T,LN=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]],SY={x:"❌",o:"⭕"};
+function tw(b){for(var i=0;i<8;i++){var l=LN[i];if(b[l[0]]&&b[l[0]]==b[l[1]]&&b[l[0]]==b[l[2]])return[b[l[0]],l]}return null}
+function mm(b,p,me){var w=tw(b);if(w)return w[0]==me?10:-10;if(b.indexOf("")<0)return 0;var best=p==me?-99:99;for(var i=0;i<9;i++)if(!b[i]){b[i]=p;var v=mm(b,p=="x"?"o":"x",me);b[i]="";best=p==me?Math.max(best,v):Math.min(best,v)}return best}
+function tNew(h){cur="t";var o=T;T={h:h,m:h=="x"?"o":"x",b:["","","","","","","","",""],lv:o?o.lv:1,sc:o?o.sc:[0,0,0],end:0,w:null,bz:h=="o"?1:0};if(T.bz)setTimeout(tMv,600);tR()}
+function tChk(){var w=tw(T.b);if(w){T.end=1;T.w=w;T.sc[w[0]==T.h?0:2]++}else if(T.b.indexOf("")<0){T.end=1;T.sc[1]++}}
+function tMv(){if(cur!="t"||T.end)return;var e=[],i;T.b.forEach(function(v,k){if(!v)e.push(k)});
+ if(Math.random()<[0,.5,1][T.lv]){var bs=-99,bi=[];e.forEach(function(k){T.b[k]=T.m;var v=mm(T.b,T.h,T.m);T.b[k]="";if(v>bs){bs=v;bi=[k]}else if(v==bs)bi.push(k)});i=bi[Math.floor(Math.random()*bi.length)]}
+ else i=e[Math.floor(Math.random()*e.length)];
+ T.b[i]=T.m;T.bz=0;tChk();tR()}
+function tR(){
+ var m=T.end?(T.w?(T.w[0]==T.h?"🎉 Você venceu!":"🤖 A máquina venceu. Tente de novo!"):"🤝 Empate! Boa defesa."):(T.bz?"🤖 A máquina está pensando...":"Sua vez: você joga com "+SY[T.h]);
+ $().innerHTML='<section class="card ctr"><h2>⭕ Velha Tech</h2><p style="color:var(--mut)">Escolha seu símbolo e o nível. A máquina fica com o outro!</p><div>'+["x","o"].map(function(s){return '<button class="sm" data-y="'+s+'" aria-pressed="'+(T.h==s)+'">Jogar com '+SY[s]+'</button>'}).join(" ")+'</div><div style="margin-top:8px">'+["Fácil","Médio","Difícil"].map(function(n,i){return '<button class="sm" data-l="'+i+'" aria-pressed="'+(T.lv==i)+'">'+n+'</button>'}).join(" ")+'</div><p><b class="f">Você '+T.sc[0]+' · Empates '+T.sc[1]+' · Máquina '+T.sc[2]+'</b></p><div class="board">'+
+ T.b.map(function(v,i){return '<button class="cell'+(T.w&&T.w[1].indexOf(i)>-1?' win':'')+'" data-c="'+i+'" aria-label="Casa '+(i+1)+'">'+(v?SY[v]:"")+'</button>'}).join("")+'</div><p><b>'+m+'</b></p>'+(T.end?'<button class="btn y" id="tn">Jogar outra</button>':'')+'<p style="color:var(--mut);font-size:14px">Prever as jogadas do outro lado é o mesmo raciocínio usado para programar e resolver problemas.</p></section>';
+ $().querySelectorAll("[data-y]").forEach(function(b){b.onclick=function(){tNew(b.dataset.y)}});
+ $().querySelectorAll("[data-l]").forEach(function(b){b.onclick=function(){T.lv=+b.dataset.l;tNew(T.h)}});
+ $().querySelectorAll("[data-c]").forEach(function(b){b.onclick=function(){var i=+b.dataset.c;if(T.end||T.bz||T.b[i])return;T.b[i]=T.h;tChk();if(!T.end){T.bz=1;setTimeout(tMv,450)}else if(T.w&&T.w[0]==T.h)boom();tR()}});
+ var n=document.getElementById("tn");if(n)n.onclick=function(){tNew(T.h)}}
+
+/* Batalha de cartas */
+var ST=["⚡ Velocidade","🧠 Inteligência","🛡️ Segurança"],C;
+var CD=[["⚙️","Processador",10,9,4,"Executa bilhões de cálculos por segundo."],["🧩","Memória RAM",9,4,3,"Perde o que guarda quando o PC desliga."],["💾","SSD",8,3,5,"Bem mais rápido que um HD antigo."],["📀","HD",4,3,5,"Tem um disco giratório por dentro."],["🎮","Placa de vídeo",9,7,3,"Faz os gráficos de jogos e vídeos."],["📡","Roteador",6,4,6,"Leva a internet para vários aparelhos."],["🧱","Firewall",5,6,10,"Barra acessos suspeitos na rede."],["🛡️","Antivírus",4,7,9,"Procura e bloqueia programas maliciosos."],["🗄️","Servidor",8,8,7,"Computador potente que atende muita gente."],["💻","Notebook",6,6,5,"Computador completo que cabe na mochila."],["📱","Smartphone",7,7,4,"Hoje é um computador de bolso."],["🔋","Nobreak",2,2,8,"Segura a energia quando a luz cai."],["🧵","Fibra óptica",10,1,6,"Transmite dados com pulsos de luz."],["🤖","Inteligência artificial",7,10,5,"Aprende com dados para ajudar pessoas."]];
+function cStart(){cur="c";var d=shuf(CD.map(function(_,i){return i}));C={me:d.slice(0,6),pc:d.slice(6,12),r:0,t:"me",s:[0,0],st:0,a:-1,w:-1,fin:0};cR()}
+function cc(c,up,ck,sel,win){return '<div class="tc'+(win?' w':'')+'">'+(up?'<div class="e">'+c[0]+'</div><b class="f">'+c[1]+'</b>'+ST.map(function(s,k){return '<button class="sr'+(sel==k?' on':'')+'" data-a="'+k+'"'+(ck?'':' disabled')+'><span>'+s+'</span><div class="bar"><b style="width:'+c[2+k]*10+'%"></b></div><b>'+c[2+k]+'</b></button>'}).join("")+'<small>'+c[5]+'</small>':'<div class="e">❓</div><b class="f">Carta da máquina</b><small>Escondida</small>')+'</div>'}
+function cRes(){if(cur!="c"||C.st)return;var m=CD[C.me[C.r]][2+C.a],p=CD[C.pc[C.r]][2+C.a];C.w=m>p?0:m<p?1:2;if(C.w<2){C.s[C.w]++;C.t=C.w?"pc":"me"}C.st=1;cR()}
+function cR(){
+ if(C.fin){var w=C.s[0]>C.s[1]?"🎉 Você venceu a máquina!":C.s[0]<C.s[1]?"🤖 A máquina venceu. Quer a revanche?":"🤝 Empate!";
+  $().innerHTML='<section class="card ctr"><h2>🃏 Fim do duelo</h2><p><b class="f" style="font-size:26px">Você '+C.s[0]+' x '+C.s[1]+' Máquina</b></p><p><b>'+w+'</b></p><p>Quem conhece bem cada componente escolhe melhor, como um bom técnico de informática.</p><button class="btn" id="cs">Jogar de novo</button></section>';
+  document.getElementById("cs").onclick=cStart;if(C.s[0]>C.s[1])boom();return}
+ var mc=CD[C.me[C.r]],pc=CD[C.pc[C.r]],my=C.st==0&&C.t=="me",msg;
+ if(C.st==0&&C.t=="pc"){C.a=[2,3,4].map(function(k){return pc[k]}).reduce(function(b,v,k,a){return v>a[b]?k:b},0);setTimeout(cRes,1300);msg="🤖 A máquina escolheu "+ST[C.a]+"..."}
+ else if(my)msg="Sua vez! Toque em um atributo da sua carta.";
+ else msg=["🎉 Você venceu a rodada!","🤖 A máquina venceu a rodada.","🤝 Empate nesta rodada."][C.w];
+ $().innerHTML='<section class="card ctr"><h2>🃏 Batalha de Cartas</h2><p><b class="f">Rodada '+(C.r+1)+'/6 · Você '+C.s[0]+' x '+C.s[1]+' Máquina</b></p><div class="tcs"><div><b>Você</b>'+cc(mc,1,my,C.a,C.st&&C.w==0)+'</div><div><b>Máquina</b>'+cc(pc,C.st,0,C.a,C.st&&C.w==1)+'</div></div><p><b>'+msg+'</b></p>'+(C.st?'<button class="btn y" id="cn">'+(C.r>=5?'Ver resultado':'Próxima rodada')+'</button>':'')+'</section>';
+ $().querySelectorAll("[data-a]").forEach(function(b){b.onclick=function(){C.a=+b.dataset.a;cRes()}});
+ var n=document.getElementById("cn");if(n)n.onclick=function(){C.r++;if(C.r>=6)C.fin=1;else{C.st=0;C.a=-1;C.w=-1}cR()}}
+/* ===== Novidades: XP, som, imagens, 5 jogos novos ===== */
+var IM={}; /* Fotos reais: IM["Processador"]="foto.jpg" (URL ou data:image/...). Sem foto, aparece o emoji. */
+function pic(k,e){return IM[k]?'<img class="pi" src="'+IM[k]+'" alt="'+k+'" onerror="this.outerHTML=\''+e+'\'">':e}
+var XP=0,MU=0,AC;try{XP=+localStorage.getItem("arcade-xp")||0}catch(e){}
+function xp(n){XP+=n;try{localStorage.setItem("arcade-xp",XP)}catch(e){}var b=document.getElementById("xpb");if(b)b.textContent="⭐ "+XP+" XP";if(n>0)pop("+"+n+" XP")}
+function bp(f){if(MU)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();var o=AC.createOscillator(),g=AC.createGain();o.frequency.value=f;g.gain.value=.06;o.connect(g);g.connect(AC.destination);o.start();o.stop(AC.currentTime+.12)}catch(e){}}
+function end(e,t,p,id,fn){$().innerHTML='<section class="card ctr"><div style="font-size:60px">'+e+'</div><h2>'+t+'</h2><p>'+p+'</p><button class="btn" id="'+id+'">Jogar de novo</button></section>';document.getElementById(id).onclick=fn}
+function ids(a){return a.map(function(_,i){return i})}
+
+/* Memória Tech */
+var MP=[["🧠","Processador"],["🧩","RAM"],["💾","SSD"],["🔌","Fonte"],["📡","Roteador"],["🛡️","Antivírus"],["🖥️","Monitor"],["⌨️","Teclado"]],M;
+function mStart(){cur="m";var d=[];MP.forEach(function(p,i){d.push({k:i,t:0},{k:i,t:1})});M={d:shuf(d),f:[],ok:{},mv:0,lk:0};mR()}
+function mR(){var n=Object.keys(M.ok).length/2;
+ $().innerHTML='<section class="card ctr"><h2>🧠 Memória Tech</h2><p style="color:var(--mut)">Una cada imagem ao nome do componente.<br>Jogadas: <b>'+M.mv+'</b> · Pares: <b>'+n+'/8</b></p><div class="mg">'+M.d.map(function(c,i){var on=M.ok[i]||M.f.indexOf(i)>-1;return '<button class="mc'+(on?' on':'')+(M.ok[i]?' ok':'')+'" data-i="'+i+'" aria-label="Carta '+(i+1)+'">'+(on?(c.t?'<b>'+MP[c.k][1]+'</b>':pic(MP[c.k][1],MP[c.k][0])):'?')+'</button>'}).join("")+'</div>'+(n==8?'<h2>🎉 Em '+M.mv+' jogadas!</h2><button class="btn" id="mg">Jogar de novo</button>':'')+'</section>';
+ $().querySelectorAll("[data-i]").forEach(function(b){b.onclick=function(){var i=+b.dataset.i;if(M.lk||M.ok[i]||M.f.indexOf(i)>-1)return;M.f.push(i);bp(500);
+  if(M.f.length==2){M.mv++;if(M.d[M.f[0]].k==M.d[M.f[1]].k){M.ok[M.f[0]]=M.ok[M.f[1]]=1;M.f=[];bp(780);if(Object.keys(M.ok).length==16){xp(Math.max(10,60-M.mv*2));boom()}}
+   else{M.lk=1;mR();setTimeout(function(){if(cur!="m")return;M.f=[];M.lk=0;mR()},800);return}}
+  mR()}});
+ var g=document.getElementById("mg");if(g)g.onclick=mStart}
+
+/* Quiz Relâmpago */
+var QZ=[["O que a sigla CPU representa?",["Processador, o cérebro do PC","Placa de vídeo","Memória externa"],0,"CPU é a unidade central de processamento."],
+["Qual senha é a mais segura?",["123456","maria2005","T!gre-Azul#47-Lua"],2,"Senhas longas, com símbolos e sem dados pessoais."],
+["O que é um backup?",["Uma cópia de segurança dos arquivos","Um tipo de vírus","Um cabo de rede"],0,"Backup protege você contra perda de dados."],
+["Para que serve o Wi-Fi?",["Conectar aparelhos à internet sem fio","Esfriar o PC","Guardar arquivos"],0,"É a rede sem fio do dia a dia."],
+["Qual destes é um sistema operacional?",["Windows","Excel","Chrome"],0,"Ele controla o computador e seus programas."],
+["Quantos bits tem 1 byte?",["8","2","16"],0,"1 byte = 8 bits."],
+["Na entrevista de emprego, o melhor é...",["Chegar cedo e pesquisar a empresa","Chegar atrasado e improvisar","Olhar o celular"],0,"Preparo e pontualidade impressionam."],
+["E-mail pedindo sua senha com urgência é...",["Provável golpe (phishing)","Sempre confiável","Um prêmio"],0,"Empresas sérias não pedem senha por e-mail."],
+["O que faz o SSD?",["Guarda arquivos de forma rápida","Imprime documentos","Esfria o PC"],0,"É o armazenamento moderno."],
+["O que é um bug?",["Um erro em um programa","Um tipo de internet","Um teclado"],0,"Achar e corrigir bugs é rotina em TI."]],Z;
+function zStart(){cur="z";Z={q:shuf(ids(QZ)).slice(0,8),i:0,l:3,p:0,st:0,t:15,a:-1,o:shuf([0,1,2])};zR()}
+function zR(){clearInterval(Z.iv);
+ if(Z.a==-1&&(Z.l<=0||Z.i>=8)){var w=Z.l>0;xp(Math.round(Z.p/10));if(w)boom();end(w?"🏆":"💥",w?"Quiz concluído!":"Fim das vidas!",'<b class="f" style="font-size:26px">'+Z.p+' pontos</b>',"zs",zStart);return}
+ var q=QZ[Z.q[Z.i]],a=Z.a>-1;
+ $().innerHTML='<section class="card sc"><div class="ctr"><b class="f">'+"❤️".repeat(Z.l)+' · Pergunta '+(Z.i+1)+'/8 · '+Z.p+' pts'+(Z.st>1?' · 🔥 x'+Z.st:'')+'</b></div><div class="bar"><b id="zb" style="width:'+Z.t/15*100+'%;background:var(--meh)"></b></div><h2 style="margin:14px 0">⚡ '+q[0]+'</h2><div class="ops">'+Z.o.map(function(oi,k){var c="op";if(a){c+=" dis";if(oi==q[2])c+=" pick q2";else if(oi==Z.a)c+=" pick q0"}return '<button class="'+c+'" data-o="'+oi+'"'+(a?" disabled":"")+'><i>'+"ABC"[k]+'</i>'+q[1][oi]+'</button>'}).join("")+'</div>'+(a?'<div class="fb"><p>'+(Z.a==9?"⏰ Tempo esgotado! ":"")+q[3]+'</p><button class="btn y" id="zn">Continuar</button></div>':'')+'</section>';
+ if(!a){Z.iv=setInterval(function(){if(cur!="z"){clearInterval(Z.iv);return}Z.t-=.25;var b=document.getElementById("zb");if(b)b.style.width=Math.max(0,Z.t/15*100)+"%";if(Z.t<=0)zA(9)},250);
+  $().querySelectorAll("[data-o]").forEach(function(b){b.onclick=function(){zA(+b.dataset.o)}})}
+ var n=document.getElementById("zn");if(n)n.onclick=function(){Z.i++;Z.a=-1;Z.t=15;Z.o=shuf([0,1,2]);zR()}}
+function zA(oi){clearInterval(Z.iv);if(Z.a>-1)return;Z.a=oi;if(oi==QZ[Z.q[Z.i]][2]){Z.st++;Z.p+=100+Math.round(Z.t)*10+Z.st*20;bp(660)}else{Z.st=0;Z.l--;bp(200)}zR()}
+
+/* Detetive de E-mails */
+var PH=[["suporte@banc0-seguro.com","URGENTE: sua conta será bloqueada em 1 hora! Clique aqui e digite sua senha.",1,"Urgência, domínio com erro de grafia e pedido de senha."],
+["rh@suaempresa.com.br","Olá! Segue o calendário de treinamentos do mês. Qualquer dúvida, é só responder.",0,"Remetente conhecido, tom normal e nenhum pedido suspeito."],
+["premio@sorteio-vip.net","Parabéns! Você ganhou um iPhone. Pague R$ 19 de frete para receber.",1,"Prêmio que você não pediu e cobrança antecipada."],
+["ti@suaempresa.com.br","Manutenção na rede no sábado às 22h. Salve seus arquivos antes. Nenhuma ação extra é necessária.",0,"Aviso interno, sem links nem pedidos de dados."],
+["atendimento@correios-entrega.co","Sua encomenda está retida. Baixe o anexo (.exe) para liberar.",1,"Anexo executável (.exe) é sinal clássico de vírus."],
+["chefe@gmail-vagas.com","Preciso de 3 vales-presente agora, é segredo. Mande os códigos por aqui.",1,"Pedido secreto e urgente de dinheiro: golpe do falso chefe."]],H;
+function hS(){cur="h";H={q:shuf(ids(PH)),i:0,ok:0,a:-1};hR()}
+function hR(){
+ if(H.i>=PH.length){xp(H.ok*15);if(H.ok>=5)boom();end("🕵️","Acertou "+H.ok+" de "+PH.length,"Desconfiar de urgência, links e pedidos de senha protege você e a empresa.","hs",hS);return}
+ var m=PH[H.q[H.i]],a=H.a>-1,r=H.a==m[2];
+ $().innerHTML='<section class="card"><h2>🕵️ Detetive de E-mails</h2><p style="color:var(--mut);margin:4px 0">Mensagem '+(H.i+1)+'/'+PH.length+' · Acertos: '+H.ok+'. Segura ou golpe?</p><div class="mail"><small>De: <b>'+m[0]+'</b></small><p>'+m[1]+'</p></div><div class="ctr"><button class="btn" data-v="0"'+(a?" disabled":"")+'>✅ Segura</button> <button class="btn y" data-v="1"'+(a?" disabled":"")+'>🚨 Golpe</button></div>'+(a?'<div class="fb"><h3>'+(r?"✅ Acertou!":"❌ Errou!")+'</h3><p>'+m[3]+'</p><button class="btn y" id="hn">Próxima</button></div>':'')+'</section>';
+ $().querySelectorAll("[data-v]").forEach(function(b){b.onclick=function(){H.a=+b.dataset.v;if(H.a==m[2]){H.ok++;bp(660)}else bp(200);hR()}});
+ var n=document.getElementById("hn");if(n)n.onclick=function(){H.i++;H.a=-1;hR()}}
+
+/* Código Binário */
+var B,BW=[16,8,4,2,1];
+function bT(r){return 1+Math.floor(Math.random()*(r<2?15:31))}
+function bS(){cur="b";B={r:0,t:bT(0),v:[0,0,0,0,0]};bR()}
+function bR(){var s=B.v.reduce(function(a,x,i){return a+x*BW[i]},0);
+ $().innerHTML='<section class="card ctr"><h2>🔢 Código Binário</h2><p style="color:var(--mut)">Acenda as lâmpadas até a soma ser igual ao número alvo. Computadores contam só com 0 e 1.</p><b class="f">Rodada '+(B.r+1)+'/6 · Alvo:</b><div class="tgt">'+B.t+'</div><div class="bits">'+BW.map(function(w,i){return '<button class="bit'+(B.v[i]?' on':'')+'" data-b="'+i+'" aria-pressed="'+!!B.v[i]+'"><span>'+(B.v[i]?'💡':'⚫')+'</span><small>'+w+'</small></button>'}).join("")+'</div><p>Binário: <b>'+B.v.join("")+'</b> · Soma: <b>'+s+'</b></p></section>';
+ $().querySelectorAll("[data-b]").forEach(function(b){b.onclick=function(){var i=+b.dataset.b;B.v[i]=1-B.v[i];bp(B.v[i]?600:400);var t=B.v.reduce(function(a,x,k){return a+x*BW[k]},0);
+  if(t==B.t){xp(20);B.r++;if(B.r>=6){boom();end("💡","Você fala binário!","6 números convertidos. Todo arquivo e programa é feito de 0 e 1.","bs",bS);return}B.t=bT(B.r);B.v=[0,0,0,0,0]}bR()}})}
+
+/* Digitação Dev */
+var TW=["firewall","backup","servidor","algoritmo","senha","roteador","processador","software","internet","nuvem","teclado","programação","suporte","rede"],D;
+function dN(){var w;do{w=TW[Math.floor(Math.random()*TW.length)]}while(w==D.w);D.w=w}
+function dS(){cur="d";D={n:0,t:30,w:"",ch:0,run:0};dN();
+ $().innerHTML='<section class="card ctr"><h2>⌨️ Digitação Dev</h2><p style="color:var(--mut)">Digite cada termo de TI. São 30 segundos, contados a partir da primeira letra.</p><div class="bar"><b id="db" style="width:100%;background:var(--ok)"></b></div><div class="tgt" id="dw" style="font-size:36px">'+D.w+'</div><input id="di" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Digite aqui"><b class="f" id="dn">Termos: 0</b></section>';
+ var i=document.getElementById("di");i.focus();
+ i.oninput=function(){if(!D.run){D.run=1;D.iv=setInterval(function(){if(cur!="d"){clearInterval(D.iv);return}D.t-=.25;var b=document.getElementById("db");if(b)b.style.width=Math.max(0,D.t/30*100)+"%";if(D.t<=0){clearInterval(D.iv);xp(D.n*5);if(D.n>=8)boom();end("⏱️","Tempo esgotado!",D.n+" termos · "+D.ch*2+" caracteres por minuto","ds",dS)}},250)}
+  if(i.value.trim().toLowerCase()==D.w){D.n++;D.ch+=D.w.length;bp(660);dN();document.getElementById("dw").textContent=D.w;document.getElementById("dn").textContent="Termos: "+D.n;i.value=""}}}
+/* Caça-Bugs */
+var K,KE=["","🐛","💾"];
+function kD(){var g=document.getElementById("kg");if(!g)return;[].forEach.call(g.children,function(b,i){b.textContent=KE[K.c[i]];b.className="kc"+(K.c[i]==1?" bug":K.c[i]==2?" fl":"")});document.getElementById("ki").textContent="❤️".repeat(K.l)+" · Bugs: "+K.s+(K.m>1?" · 🔥 x"+K.m:"")}
+function kE(){clearInterval(K.iv);xp(K.s*3);if(K.s>=15)boom();end("🐛",K.l>0?"Tempo esgotado!":"Você esmagou arquivos importantes!",K.s+" bugs esmagados. Em TI, achar o erro certo sem quebrar o resto é uma habilidade valiosa.","ks",kS)}
+function kS(){cur="k";K={c:[0,0,0,0,0,0,0,0,0,0,0,0],x:[],l:3,s:0,m:0,t:30};
+ $().innerHTML='<section class="card ctr"><h2>🐛 Caça-Bugs</h2><p style="color:var(--mut)">Esmague os 🐛 antes que sumam. Não toque nos 💾 arquivos importantes! São 30 segundos e 3 vidas.</p><div class="bar"><b id="kb" style="width:100%;background:var(--bad)"></b></div><p><b class="f" id="ki"></b></p><div class="kg" id="kg">'+K.c.map(function(_,i){return '<button class="kc" data-k="'+i+'" aria-label="Casa '+(i+1)+'"></button>'}).join("")+'</div></section>';
+ $().querySelectorAll("[data-k]").forEach(function(b){b.onclick=function(){var i=+b.dataset.k,v=K.c[i];if(!v)return;K.c[i]=0;if(v==1){K.s++;K.m++;bp(660)}else{K.l--;K.m=0;bp(200);if(K.l<=0){kE();return}}kD()}});
+ K.iv=setInterval(function(){if(cur!="k"){clearInterval(K.iv);return}var n=Date.now();K.t-=.1;document.getElementById("kb").style.width=Math.max(0,K.t/30*100)+"%";
+  K.c.forEach(function(v,i){if(v&&K.x[i]<n)K.c[i]=0});
+  if(Math.random()<.35+(30-K.t)*.01){var e=[];K.c.forEach(function(v,i){if(!v)e.push(i)});if(e.length){var i=e[Math.floor(Math.random()*e.length)];K.c[i]=Math.random()<.8?1:2;K.x[i]=n+Math.max(550,1100-(30-K.t)*15)}}
+  if(K.t<=0){kE();return}kD()},100);kD()}
+document.getElementById("snd").onclick=function(){MU=!MU;this.textContent=MU?"🔇":"🔊"};xp(0);
+document.getElementById("menu").onclick=function(){hub()};
+newG();hub();
+</script>
+</body>
+</html>
